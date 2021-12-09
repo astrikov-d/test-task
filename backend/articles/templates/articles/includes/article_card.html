@@ -1,0 +1,38 @@
+{% load i18n easy_thumbnails_tags %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="card">
+    {% thumbnail object.image 510x350 crop upscale as thumb %}
+    {% if LANGUAGE_CODE == 'de' %}
+        <img src="{{ thumb.url }}"
+            class="card-img-top"
+            alt="{{ object.title_de }}">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{% url 'articles:detail' slug=object.slug %}">
+                    {{ object.title_de }}
+                </a>
+            </h5>
+            <p class="card-text">
+                {{ object.content_de|truncatewords_html:15 }}
+            </p>
+            {% include 'articles/includes/view_more_btn.html' %}
+        </div>
+    {% else %}
+        <img src="{{ thumb.url }}"
+            class="card-img-top"
+            alt="{{ object.title_en }}">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{% url 'articles:detail' slug=object.slug %}">
+                    {{ object.title_en }}
+                </a>
+            </h5>
+            <p class="card-text">
+                {{ object.content_en|truncatewords_html:15 }}
+            </p>
+            {% include 'articles/includes/view_more_btn.html' %}
+        </div>
+    {% endif %}
+</div>

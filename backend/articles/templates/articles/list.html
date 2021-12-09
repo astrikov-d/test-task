@@ -1,0 +1,23 @@
+{% extends 'articles/base.html' %}
+
+{% load i18n widget_tweaks static %}
+
+{% block content_articles %}
+    <form method="GET">
+        {{ search_form.tags }}
+        <a class="btn btn-default" href="{{ request.path }}">{% trans 'Clear' %}</a>
+        <button type="submit" class="btn btn-primary">{% trans 'Filter' %}</button>
+    </form>
+    {% if object_list|length > 0 %}
+        <div class="row">
+            {% for object in page_obj %}
+                <div class="col col-xs-1 col-sm-8 col-lg-6 mb-3">
+                    {% include 'articles/includes/article_card.html' %}
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'includes/pagination.html' %}
+    {% else %}
+        <div class="alert alert-warning">There is no articles yet.</div>
+    {% endif %}
+{% endblock %}

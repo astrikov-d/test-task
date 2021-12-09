@@ -1,1 +1,1 @@
-require('./demo-plugin/index');
+require('./articles/index');

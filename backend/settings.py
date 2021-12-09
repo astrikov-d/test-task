@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django_storage_url import dsn_configured_storage_class
 from link_all.dataclasses import LinkAllModel
 
-
 ################################################################################
 # divio
 ################################################################################
@@ -27,10 +26,8 @@ class DjangoEnv(Enum):
 DJANGO_ENV_ENUM = DjangoEnv
 DJANGO_ENV = DjangoEnv(env.str('STAGE', default='local'))
 
-
 if DJANGO_ENV == DjangoEnv.LOCAL:
     CACHE_URL = 'locmem://'  # to disable a warning from aldryn-django
-
 
 BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(BACKEND_DIR)
@@ -43,14 +40,12 @@ BASE_DIR: str = locals()['BASE_DIR']
 DOMAIN: str = locals().get('DOMAIN', 'localhost')
 SITE_NAME: str = locals().get('SITE_NAME', 'dev testing site')
 
-
 ################################################################################
 # django
 ################################################################################
 
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
 
 DATE_FORMAT = 'F j, Y'
 USE_TZ = True
@@ -63,9 +58,9 @@ DEBUG_PROPAGATE_EXCEPTIONS = env.bool('DEBUG_PROPAGATE_EXCEPTIONS', default=Fals
 # this is set by Divio environment automatically
 SECRET_KEY = env.str('SECRET_KEY', default="this-is-not-very-random")
 
-ALLOWED_HOSTS = [env.str('DOMAIN', default=""),]
+ALLOWED_HOSTS = [env.str('DOMAIN', default=""), ]
 if DEBUG:
-    ALLOWED_HOSTS = ["*",]
+    ALLOWED_HOSTS = ["*", ]
 
 SITE_ID = env.int('SITE_ID', default=1)
 
@@ -73,8 +68,7 @@ INSTALLED_APPS = []
 installed_apps_overrides = [
     # for USERNAME_FIELD = 'email', before `cms` since it has a User model
     'backend.auth',
-
-    'backend.blog',
+    'backend.articles',
 
     'djangocms_modules',
 ]
@@ -92,13 +86,15 @@ INSTALLED_APPS.extend([
     'djangocms_admin_style',  # must be before django admin to override templates
     'django.contrib.admin',
 
-    'aldryn_sso',  # aldryn_sso must be after django.contrib.admin so it can unregister the User/Group Admin if necessary.
+    'aldryn_sso',
+    # aldryn_sso must be after django.contrib.admin so it can unregister the User/Group Admin if necessary.
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',  # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
+    'whitenoise.runserver_nostatic',
+    # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
@@ -141,10 +137,9 @@ INSTALLED_APPS.extend([
     'djangocms_picture',
     'djangocms_bootstrap4.contrib.bootstrap4_picture',
     'aldryn_apphooks_config',
-    'djangocms_blog',
-        'taggit',
-        'taggit_autosuggest',
-        'sortedm2m',
+    'taggit',
+    'taggit_autosuggest',
+    'sortedm2m',
     'djangocms_icon',
     'djangocms_text_ckeditor',
     'djangocms_googlemap',
@@ -155,14 +150,14 @@ INSTALLED_APPS.extend([
     'djangocms_socialshare',
     # 'djangocms_algolia',
     'djangocms_page_meta',
-        'meta',
+    'meta',
     'aldryn_forms_bs4_templates',
     'aldryn_forms',
-        'aldryn_forms_recaptcha_plugin',
-            'snowpenguin.django.recaptcha3',
-        'absolute',
-        'aldryn_forms.contrib.email_notifications',
-        'emailit',
+    'aldryn_forms_recaptcha_plugin',
+    'snowpenguin.django.recaptcha3',
+    'absolute',
+    'aldryn_forms.contrib.email_notifications',
+    'emailit',
     'djangocms_redirect',
     'light_gallery',
     'link_all',
@@ -180,7 +175,6 @@ INSTALLED_APPS.extend([
     'backend.plugins.bs4_spacer',
     'backend.plugins.horizontal_line',
 ])
-
 
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -207,12 +201,10 @@ MIDDLEWARE = [
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
-
 # Configure database using DATABASE_URL; fall back to sqlite file when no
 # environment variable is available, e.g. during Docker build
 DATABASE_URL = env.str('DATABASE_URL', default=f'sqlite:///{BASE_DIR}/db.sqlite')
 DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
-
 
 AUTH_USER_MODEL = 'backend_auth.User'
 
@@ -221,7 +213,6 @@ LOCALE_PATHS = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
-
 
 TEMPLATES = [
     {
@@ -249,7 +240,6 @@ TEMPLATES = [
     },
 ]
 
-
 if DJANGO_ENV == DjangoEnv.LOCAL:
     email_backend_default = 'django.core.mail.backends.console.EmailBackend'
 else:
@@ -258,11 +248,9 @@ EMAIL_BACKEND = env.str('EMAIL_BACKEND', default=email_backend_default)
 
 DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', f'{SITE_NAME} <info@{DOMAIN}>')
 
-
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
 # PREPEND_WWW = True (if you want to redirect domain.com/... to www.domain.com/...
 HTTP_PROTOCOL = env.str('HTTP_PROTOCOL', 'https')
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/'),
@@ -273,18 +261,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DEFAULT_MAX_AGE = 60 * 60 * 24 * 365  # the default is 5m
 WHITENOISE_MAX_AGE = STATICFILES_DEFAULT_MAX_AGE
 
-
 # Media files
 # DEFAULT_FILE_STORAGE is configured using DEFAULT_STORAGE_DSN
 # read the setting value from the environment variable
-DEFAULT_STORAGE_DSN = env.str('DEFAULT_STORAGE_DSN', default='file:///data/media/?url=%2Fmedia%2F')
+DEFAULT_STORAGE_DSN = env.str('DEFAULT_STORAGE_DSN',
+                              default='file:///data/media/?url=%2Fmedia%2F')
 # dsn_configured_storage_class() requires the name of the setting
 DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
 # Django's DEFAULT_FILE_STORAGE requires the class name
 DEFAULT_FILE_STORAGE = 'backend.settings.DefaultStorageClass'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'data/media/')
-
 
 # allauth
 AUTHENTICATION_BACKENDS = [
@@ -304,14 +291,13 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False  # otherwise admins can't access t
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},  # removes frustrating validations, eg `too similar to your email`
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    # removes frustrating validations, eg `too similar to your email`
 ]
-
 
 GTM_CONTAINER_ID = env.str('GTM_CONTAINER_ID', 'GTM-1234')
 
 WEBPACK_DEV_URL = env.str('WEBPACK_DEV_URL', default='http://0.0.0.0:8090')
-
 
 SENTRY_DSN = env.str('SENTRY_DSN', '')
 
@@ -326,10 +312,8 @@ SETTINGS_EXPORT = [
     'GTM_CONTAINER_ID',
 ]
 
-
 HIJACK_REGISTER_ADMIN = False
 HIJACK_ALLOW_GET_REQUESTS = True
-
 
 ADMIN_REORDER = [
     {
@@ -350,10 +334,6 @@ ADMIN_REORDER = [
             'djangocms_redirect.Redirect',
             {'model': 'aldryn_forms.FormSubmission', 'label': 'Dynamic forms submissions'},
         ],
-    },
-    {
-        'label': 'Blog',
-        'app': 'djangocms_blog',
     },
     {
         'label': 'System Administration',
@@ -380,11 +360,11 @@ ADMIN_REORDER = [
     },
 ]
 
-
-RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY', '6LcI2-YUAAAAALOlCkObFFtMkOYj1mhiArPyupgj')  # those are djangocms-template v3 keys that allow localhost testing
-RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY', '6LcI2-YUAAAAADHRo9w9nVNtPW2tPx9MS4yqEvD6')
+RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY',
+                               '6LcI2-YUAAAAALOlCkObFFtMkOYj1mhiArPyupgj')  # those are djangocms-template v3 keys that allow localhost testing
+RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY',
+                                '6LcI2-YUAAAAADHRo9w9nVNtPW2tPx9MS4yqEvD6')
 RECAPTCHA_SCORE_THRESHOLD = 0.85
-
 
 if DEBUG:
     CACHE_MIDDLEWARE_SECONDS = 0
@@ -406,7 +386,6 @@ else:
         'permissions': one_hour,
         'content': four_hours,
     }
-
 
 DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
@@ -430,19 +409,18 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-
 # CSP settings have to be updated if some external media source is used
 CSP_DEFAULT_SRC = ("*", "'self'",)
-CSP_STYLE_SRC = ("*", "'self'", "'unsafe-eval'", "'unsafe-inline'", )
-CSP_SCRIPT_SRC = ("*", "'self'", "'unsafe-eval'", "'unsafe-inline'", )
+CSP_STYLE_SRC = ("*", "'self'", "'unsafe-eval'", "'unsafe-inline'",)
+CSP_SCRIPT_SRC = ("*", "'self'", "'unsafe-eval'", "'unsafe-inline'",)
 CSP_INCLUDE_NONCE_IN = ["script-src"]
-CSP_FONT_SRC = ("*", )
+CSP_FONT_SRC = ("*",)
 CSP_IMG_SRC = (
-    "*", "'self'", "https://*.divio-media.org", "https://www.google.com/", "https://www.google-analytics.com/",
+    "*", "'self'", "https://*.divio-media.org", "https://www.google.com/",
+    "https://www.google-analytics.com/",
     "data:"
 )
 CSP_MEDIA_SRC = ("*", "'self'", "https://*.divio-media.org", "data:")
-
 
 ################################################################################
 # django-cms
@@ -484,7 +462,6 @@ CMS_LANGUAGES = {
 }
 PARLER_LANGUAGES = CMS_LANGUAGES
 
-
 # for divio deployment, overrides control.divio.com
 MIGRATION_COMMANDS = [
     'python manage.py migrate',
@@ -492,7 +469,6 @@ MIGRATION_COMMANDS = [
     'python manage.py test_pages_on_real_db',
     'python manage.py clear_cache',
 ]
-
 
 CMS_PLACEHOLDER_CONF = {
     None: {
@@ -519,7 +495,6 @@ CMS_PLACEHOLDER_CONF = {
         ],
     },
 }
-
 
 DJANGOCMS_BOOTSTRAP4_GRID_SIZE = 24
 DJANGOCMS_BOOTSTRAP4_GRID_COLUMN_CHOICES = [
@@ -563,8 +538,9 @@ CKEDITOR_SETTINGS = {
         f'{WEBPACK_DEV_URL}/global.css' if DJANGO_ENV == DjangoEnv.LOCAL else f'{STATIC_URL}dist/global.css',
     ],
     'config': {
-        'allowedContent': True, # allows html tags
-        'fillEmptyBlocks': False, # doesn't seem to be doing anything, but was part of the old config
+        'allowedContent': True,  # allows html tags
+        'fillEmptyBlocks': False,
+        # doesn't seem to be doing anything, but was part of the old config
     },
     'pasteFromWordPromptCleanup': True,
     'pasteFromWordRemoveFontStyles': True,
@@ -574,11 +550,9 @@ TEXT_ADDITIONAL_TAGS = [
     'iframe',  # djangocms-text-ckeditor uses html5lib to sanitize HTML and deletes iframes
 ]
 
-
 # for djangocms-helpers send_email
 META_SITE_PROTOCOL = HTTP_PROTOCOL
 META_USE_SITES = True
-
 
 ALGOLIA = {
     'APPLICATION_ID': env.str('ALGOLIA_APPLICATION_ID', ''),
@@ -586,7 +560,8 @@ ALGOLIA = {
     'API_KEY_READ_ONLY': env.str('ALGOLIA_API_KEY_READ_ONLY', ''),
 }
 # todo: dynamically add load those vars in djangocms-algolia
-HAYSTACK_CONNECTIONS = {'default': {'ENGINE': 'haystack.backends.simple_backend.SimpleEngine'}}  # not used but haystack demands it on its search index collection import
+HAYSTACK_CONNECTIONS = {'default': {
+    'ENGINE': 'haystack.backends.simple_backend.SimpleEngine'}}  # not used but haystack demands it on its search index collection import
 ALDRYN_SEARCH_EXCLUDED_PLUGINS = [
     'SectionWithImageBackgroundPlugin',
     'TocPlugin',
@@ -597,24 +572,18 @@ ALDRYN_SEARCH_EXCLUDED_PLUGINS = [
 ]
 ALGOLIA_SEARCH_INDEX_TEXT_LIMIT = 95_000
 
-
-LINK_ALL_MODELS_ADDITIONAL = [
-    LinkAllModel(app_label='djangocms_blog', model_name='Post'),
-    LinkAllModel(app_label='djangocms_blog', model_name='BlogCategory'),
-]
+LINK_ALL_MODELS_ADDITIONAL = []
 LINK_ALL_ENABLE_BUTTON_PLUGIN = True
-
 
 # django-filer
 THUMBNAIL_HIGH_RESOLUTION = True
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    #'easy_thumbnails.processors.scale_and_crop',
+    # 'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
-
 
 # divio.com SSO - this is only relevant if you deploy to divio.com
 ALDRYN_SSO_HIDE_USER_MANAGEMENT = False
@@ -627,7 +596,8 @@ if DJANGO_ENV == DjangoEnv.LOCAL:
     ALDRYN_SSO_ENABLE_LOCALDEV = True
 
 ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN = False
-if DJANGO_ENV == DjangoEnv.TEST or env.bool('ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN', default=False):
+if DJANGO_ENV == DjangoEnv.TEST or env.bool('ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN',
+                                            default=False):
     # stage servers must always be protected, live servers only if env var is explicitely set
     ALDRYN_SSO_ALWAYS_REQUIRE_LOGIN = True
 
@@ -650,7 +620,8 @@ ALDRYN_SSO_ENABLE_LOGIN_FORM = env.bool('ALDRYN_SSO_ENABLE_LOGIN_FORM', default=
 SHARING_VIEW_ONLY_TOKEN_KEY_NAME = 'anonymous-access'
 SHARING_VIEW_ONLY_SECRET_TOKEN = 'true'
 # LOGIN_URL = 'aldryn_sso_login'
-ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN = env.bool('ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN', default=True)
+ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN = env.bool('ALDRYN_SSO_ENABLE_AUTO_SSO_LOGIN',
+                                            default=True)
 
 if ALDRYN_SSO_ENABLE_LOCALDEV:
     # because thouse routes are conditionally inserted in urls.py
@@ -662,11 +633,10 @@ if ALDRYN_SSO_ENABLE_LOCALDEV:
 ALDRYN_SSO_LOGIN_WHITE_LIST.extend([
     reverse_lazy('simple-sso-login'),
     reverse_lazy('aldryn_sso_login'),
-    '/static/*',  # because we're using whitenoise, static files are delivered through django
+    '/static/*',
+    # because we're using whitenoise, static files are delivered through django
     '/admin/*',  # for the logout route
 ])
-
-
 
 if ALDRYN_SSO_ENABLE_SSO_LOGIN:
     CLOUD_USER_SESSION_EXPIRATION = 24 * 60 * 60 * 7  # 1 week

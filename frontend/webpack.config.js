@@ -12,7 +12,7 @@ const config = {
         global: './global/index.js',
         vendor: './vendor/index.js',
 
-        component_demo: './components/demo-plugin/index.js',
+        articles: './components/articles/index.js',
     },
     output: {
         filename: '[name].js',

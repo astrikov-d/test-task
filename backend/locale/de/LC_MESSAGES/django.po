@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-29 12:13+0200\n"
+"POT-Creation-Date: 2021-12-09 18:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,50 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: backend/blog/templates/djangocms_blog/plugins/latest_entries.html:9
-#: backend/blog/templates/djangocms_blog/post_list.html:48
-msgid "No article found."
-msgstr ""
+#: backend/articles/templates/articles/includes/article_detail.html:7
+msgid "Created"
+msgstr "Erstellt"
 
-#: backend/blog/templates/djangocms_blog/post_list.html:18
-msgid "Latest blog posts"
-msgstr ""
+#: backend/articles/templates/articles/includes/view_more_btn.html:3
+msgid "View More"
+msgstr "Mehr sehen"
 
-#: backend/blog/templates/djangocms_blog/post_list.html:25
-msgid "Articles by"
-msgstr ""
+#: backend/articles/templates/articles/list.html:8
+msgid "Clear"
+msgstr "Klar"
 
-#: backend/blog/templates/djangocms_blog/post_list.html:27
-msgid "Archive"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:35
-msgid "Tag"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:37
-msgid "Category"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:53
-msgid "Back"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:59
-msgid "previous"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:62
-msgid "Page"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:62
-msgid "of"
-msgstr ""
-
-#: backend/blog/templates/djangocms_blog/post_list.html:65
-msgid "next"
-msgstr ""
+#: backend/articles/templates/articles/list.html:9
+msgid "Filter"
+msgstr "Filter"
 
 #: backend/plugins/bs4_float/cms_plugins.py:13
 msgid "Float"
@@ -75,11 +46,11 @@ msgstr ""
 msgid "Inline Alignment"
 msgstr ""
 
-#: backend/plugins/bs4_spacer/cms_plugins.py:12
+#: backend/plugins/bs4_spacer/cms_plugins.py:13
 msgid "Vertical Spacing"
 msgstr ""
 
-#: backend/plugins/bs4_spacer/cms_plugins.py:25
+#: backend/plugins/bs4_spacer/cms_plugins.py:23
 msgid "Advanced settings"
 msgstr ""
 

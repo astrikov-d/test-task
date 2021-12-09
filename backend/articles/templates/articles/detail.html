@@ -1,0 +1,12 @@
+{% extends 'articles/base.html' %}
+
+{% load i18n %}
+
+{% block content_articles %}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% if LANGUAGE_CODE == 'de' %}
+        {% include 'articles/includes/article_detail.html' with title=object.title_de content=object.content_de %}
+    {% else %}
+        {% include 'articles/includes/article_detail.html' with title=object.title_en content=object.content_en %}
+    {% endif %}
+{% endblock %}

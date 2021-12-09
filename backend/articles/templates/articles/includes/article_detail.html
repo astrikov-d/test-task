@@ -1,0 +1,15 @@
+{% load i18n easy_thumbnails_tags %}
+
+{% thumbnail object.image 510x350 crop upscale as thumb %}
+
+<h2>{{ title }}</h2>
+
+<h5>{% trans 'Created' %}: {{ object.creation_date|date }}</h5>
+
+<div>
+    <img src="{{ thumb.url }}">
+</div>
+
+<div>
+    {{ content|safe }}
+</div>
